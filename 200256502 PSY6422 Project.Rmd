@@ -15,12 +15,12 @@ knitr::include_graphics(imgpath1)
 ```
 
 ### Data Origin
-I found a dataset on the website [Kaggle](https://www.kaggle.com/theoverman/the-spotify-hit-predictor-dataset). They extracted the data from the music streaming website Spotify. The data spans across 6 decades (1960, 1970, 1980, 1990, 2000, and 2010). The top hit songs were analysed within each decade and the following variables were measured: energy, loudness, tempo, valence, speechiness, and my personal favourite, danceability. These variables are explained below.
+I found a dataset on the website [Kaggle](https://www.kaggle.com/theoverman/the-spotify-hit-predictor-dataset). They extracted the data from the music streaming website Spotify. The data spans across 6 decades (1960, 1970, 1980, 1990, 2000, and 2010). The top hit songs were analysed within each decade and the following variables were made: energy, loudness, tempo, valence, speechiness, and my personal favourite, danceability. These variables are explained below.
 
  Variable  | Explanation
 ------------- | -------------
 Danceability|  How suitable the track is for dancing
-Energy|  Combining intensity and activity within a track
+Energy|  Combining intensity and activity within a track (0-1, 0 being low energy)
 Loudness|  Measured using decibels
 Tempo |  Measured using beats per minute
 Valence|  Musical positiveness (high valence = more positive track)
@@ -73,8 +73,8 @@ print(graph1)
 The first visualisation of data within this project presents the relationship between the average level of Energy and Loudness of tracks across **all decades**. For this, the dataset 'alldata' has been utilised. From the graph above, we see an overall positive correlation between the energy of a track and the loudness. The more energy a track exudes, the higher the number of decibels it has.
 
 ### Graph 2 - Have songs become more energetic over time?
-varience of energy has remained consistent
 ```{r}
+#Using the decade column and energy variable to create a box plot graph. Including the Spotify green colour.
 alldata$decade <- as.factor(alldata$decade)
 graph2 <- ggplot(alldata, aes(x=decade, y=energy)) +
   geom_boxplot(color = '#1DB954') +
@@ -82,15 +82,27 @@ graph2 <- ggplot(alldata, aes(x=decade, y=energy)) +
 print(graph2)
 ```
 
+Graph 2 in the project shows how the level of energy in 'top hit' songs have changed from the 60s to the 10s. From the graph above, we see that energy in these songs have **increased**. In addition, the variance of energy in the tracks remained consistent across the decades. 
 
 
+### Graph 3 - Are songs more danceable now?
+```{r}
+#Using the decade column and danceability variable to create a box plot graph.
+alldata$decade <- as.factor(alldata$decade)
+graph3 <- ggplot(alldata, aes(x=decade, y=danceability)) +
+  geom_boxplot(color = '#1DB954') +
+  theme_tufte()
+print(graph3)
+```
 
-## Discussion
-A possible explanation for the lack of 
+Graph 3 here mirrors that of graph 2 but presents the change in danceability over the decades. The box plot above shows that from 1960 through to 2010, hit songs have similar levels of danceability. Similar to graph 2, the variance remains consistent across the decades.
+
+
+## Final Points
+To summarise, from the 3 graphs presented within this project, we look further into Spotify data using songs from across the decades. Firstly, from graph 1 we see the relationship between the energy and loudness of top hit song across all decades.From graph 2, we see a clear steady increase in the average level of energy in selected songs from the 1960s to the 2010s. Finally in graph 3, no change across the decades was seen in terms of the top hits level of danceability.
 
 ### Looking to the future
-As mentioned above, a limitation of the dataset is that only the 'top hits' of each decade have been used. What Spotify determine to be a decade's top hit may not be an accurate representation of music at that time. This is made more poignant by the fact that Spotify was born in 2006. 
-To take this project further, it would be really fun to include your own personal Spotify data. For example to create a graph using your own listening history with your own 'top hits'. This could be measured across the different seasons to see any emerging patterns, or for particular life events (i.e. going through a break up and listening to sad songs).
-As the data was separated by decades, the data was very discrete. To provide If each track had the year then cool 
+A limitation of the dataset is that only the 'top hits' of each decade have been used. What Spotify determine to be a decade's top hit may not be an accurate representation of music at that time. This is made more poignant by the fact that Spotify was born in 2006. More so, the visualisation of the data may be improved if instead of using decades to use individual years. 
+In addition to this, to take this project further, it would be really fun to include your own personal Spotify data. For example to create a graph using your own listening history with your own 'top hits'. This could be measured across the different seasons to see any emerging patterns, or for particular life events (i.e. going through a break up and listening to sad songs).
 
 This analysis above was performed using R. The rMarkdown file, images & data plots are available on github.
