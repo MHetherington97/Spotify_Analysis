@@ -1,0 +1,96 @@
+---
+title: "PSY6422 Data Visualisation"
+author: "Megan Hetherington"
+date: "08/06/21"
+output: html_document
+---
+# Unsure what music to listen to? I will give you some sound advice
+### Project Motivation
+Selecting a topic for the current project appeared difficult at first, having access to infinite data online. I directed my attention to something that I love: music. The music streaming app Spotify is by far my most used programme and with good reason as music brings so much joy. Why does it bring so much joy? **SO** many reasons. The present project aims to explore different aspects of music (i.e. how loud it is, how much energy it has, how danceable it is) and see if these have changed across the decades.
+```{r}
+#path to spotify image
+imgpath1 <- 'spotify.png'
+#include image in markdown
+knitr::include_graphics(imgpath1)
+```
+
+### Data Origin
+I found a dataset on the website [Kaggle](https://www.kaggle.com/theoverman/the-spotify-hit-predictor-dataset). They extracted the data from the music streaming website Spotify. The data spans across 6 decades (1960, 1970, 1980, 1990, 2000, and 2010). The top hit songs were analysed within each decade and the following variables were measured: energy, loudness, tempo, valence, speechiness, and my personal favourite, danceability. These variables are explained below.
+
+ Variable  | Explanation
+------------- | -------------
+Danceability|  How suitable the track is for dancing
+Energy|  Combining intensity and activity within a track
+Loudness|  Measured using decibels
+Tempo |  Measured using beats per minute
+Valence|  Musical positiveness (high valence = more positive track)
+Speechiness|  Presence of spoken word in the track
+
+
+### Preparing the Data
+```{r}
+#Load the data in individual decades
+data_00 <- read.csv('data_00.csv')
+data_60 <- read.csv('dataset-of-60s.csv')
+data_10 <- read.csv('dataset-of-10s.csv')
+data_70 <- read.csv('dataset-of-70s.csv')
+data_80 <- read.csv('dataset-of-80s.csv')
+data_90 <- read.csv('dataset-of-90s.csv')
+
+#Creating decade column
+data_60['decade'] = 1960
+data_70['decade'] = 1970
+data_80['decade'] = 1980
+data_90['decade'] = 1990
+data_00['decade'] = 2000
+data_10['decade'] = 2010
+
+ 
+#Combine data 
+alldata <- rbind(data_00, data_60, data_10, data_70, data_80, data_90)
+
+#Displaying the first rows of raw data, an example using data from the 60s
+head(data_60)
+```
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Graph 1 - The relationship between Energy and Loudness overall
+```{r, echo=FALSE}
+library(ggplot2)
+library(ggthemes)
+```
+```{r}
+#Using the 'alldata' dataset, create a scattergraph with a linear trend and a confidence interval
+graph1 <- ggplot(alldata, aes(x=energy, y=loudness)) +
+  geom_point(color = '#1DB954') +
+  geom_smooth(method=lm , color="#191414", fill="#1DB954", se=TRUE) +
+  theme_tufte()
+print(graph1)
+```
+
+The first visualisation of data within this project presents the relationship between the average level of Energy and Loudness of tracks across **all decades**. For this, the dataset 'alldata' has been utilised. From the graph above, we see an overall positive correlation between the energy of a track and the loudness. The more energy a track exudes, the higher the number of decibels it has.
+
+### Graph 2 - Have songs become more energetic over time?
+varience of energy has remained consistent
+```{r}
+alldata$decade <- as.factor(alldata$decade)
+graph2 <- ggplot(alldata, aes(x=decade, y=energy)) +
+  geom_boxplot(color = '#1DB954') +
+  theme_tufte()
+print(graph2)
+```
+
+
+
+
+## Discussion
+A possible explanation for the lack of 
+
+### Looking to the future
+As mentioned above, a limitation of the dataset is that only the 'top hits' of each decade have been used. What Spotify determine to be a decade's top hit may not be an accurate representation of music at that time. This is made more poignant by the fact that Spotify was born in 2006. 
+To take this project further, it would be really fun to include your own personal Spotify data. For example to create a graph using your own listening history with your own 'top hits'. This could be measured across the different seasons to see any emerging patterns, or for particular life events (i.e. going through a break up and listening to sad songs).
+As the data was separated by decades, the data was very discrete. To provide If each track had the year then cool 
+
+This analysis above was performed using R. The rMarkdown file, images & data plots are available on github.
